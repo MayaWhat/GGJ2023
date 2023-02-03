@@ -8,10 +8,12 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
     [SerializeField] private float _jumpHeight = 20f;
     private float _horizontalVelocity;
     private Rigidbody2D _rigidBody;
+    private AbovePlayerSounds _playerSounds;
 
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
+        _playerSounds = GetComponent<AbovePlayerSounds>();
     }
 
     public void OnEnable()
@@ -52,6 +54,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
             return;
         }
         _rigidBody.velocity = new Vector2(_rigidBody.velocity.x, _jumpHeight);
+        _playerSounds.Jump();
     }
 
     public void OnRoot(InputAction.CallbackContext context)
