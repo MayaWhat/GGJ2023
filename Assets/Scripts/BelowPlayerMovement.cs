@@ -50,7 +50,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
     public void OnMoveUp(InputAction.CallbackContext context)
     {
-        if (!context.performed)
+        if (!context.performed || _moveDirection.y != 0)
         {
             return;
         }
@@ -60,7 +60,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
     public void OnMoveDown(InputAction.CallbackContext context)
     {
-        if (!context.performed)
+        if (!context.performed || _moveDirection.y != 0)
         {
             return;
         }
@@ -70,7 +70,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
     public void OnMoveLeft(InputAction.CallbackContext context)
     {
-        if (!context.performed)
+        if (!context.performed || _moveDirection.x != 0)
         {
             return;
         }
@@ -80,7 +80,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
     public void OnMoveRight(InputAction.CallbackContext context)
     {
-        if (!context.performed)
+        if (!context.performed || _moveDirection.x != 0)
         {
             return;
         }
