@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{cab987b3-8178-4d9b-a5e9-1cfd06c40b15}">
+		<property name="assetPath">
+			<value>burrow.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.7294583333333333</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{36aedba5-fc76-4e14-902b-1eef0d9962af}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1747071345463263671}
   - component: {fileID: 1747071345463263669}
   - component: {fileID: 1747071345463263666}
+  - component: {fileID: 5166316397913234799}
   m_Layer: 0
   m_Name: AbovePlayer
   m_TagString: Untagged
@@ -33,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1747071345463263668
 BoxCollider2D:
@@ -174,3 +175,29 @@ MonoBehaviour:
   _playerManager: {fileID: 6731211284990346897, guid: 963f38a0d958d5e458cce55321367b72, type: 3}
   _moveSpeed: 5
   _jumpHeight: 20
+--- !u!114 &5166316397913234799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1747071345463263656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9335c8ef9a9a5a240b684a2c974af859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _walkingSound:
+    Guid:
+      Data1: 2002758860
+      Data2: 1173348348
+      Data3: 704759230
+      Data4: -1442374467
+    Path: event:/Player Sounds/Walking
+  _jumpSound:
+    Guid:
+      Data1: 1646777701
+      Data2: 1098187817
+      Data3: -1533907071
+      Data4: -2010749629
+    Path: event:/Player Sounds/Jump

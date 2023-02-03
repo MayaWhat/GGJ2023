@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6963832035591407921}
   - component: {fileID: 6963832035591407917}
   - component: {fileID: 6899246268410688387}
+  - component: {fileID: 3799676484459607388}
   m_Layer: 0
   m_Name: BelowPlayer
   m_TagString: Untagged
@@ -100,3 +101,22 @@ MonoBehaviour:
   _playerManager: {fileID: 6731211284990346897, guid: 963f38a0d958d5e458cce55321367b72, type: 3}
   _belowTrail: {fileID: 3594267739769475023, guid: 49a242bf4a1329e45b6364387537dc5e, type: 3}
   _moveTimer: 0
+--- !u!114 &3799676484459607388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6963832035591407920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4f7a9a7b70228446a26e6cd1773800b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _diggingSound:
+    Guid:
+      Data1: -1453328075
+      Data2: 1178190435
+      Data3: 462402439
+      Data4: 275151102
+    Path: event:/Player Sounds/Digging

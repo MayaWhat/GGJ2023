@@ -9,10 +9,12 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
     [SerializeField] private float _jumpHeight = 20f;
     private float _horizontalVelocity;
     private Rigidbody2D _rigidBody;
+    private AbovePlayerSounds _playerSounds;
 
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
+        _playerSounds = GetComponent<AbovePlayerSounds>();
     }
 
     public void OnEnable()
@@ -40,6 +42,21 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
         _horizontalVelocity = moveInput.x * _moveSpeed;
 
         _rigidBody.velocity = new Vector2(_horizontalVelocity, _rigidBody.velocity.y);
+
+        if (moveInput.x != 0)
+        {
+            if (!_playerSounds.Walking.IsPlaying())
+            {
+                _playerSounds.Walking.Play();
+            }
+        }
+        else
+        {
+            if (_playerSounds.Walking.IsPlaying())
+            {
+                _playerSounds.Walking.Stop();
+            }
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -53,6 +70,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
             return;
         }
         _rigidBody.velocity = new Vector2(_rigidBody.velocity.x, _jumpHeight);
+        _playerSounds.Jump.Play();
     }
 
     public void OnRoot(InputAction.CallbackContext context)
