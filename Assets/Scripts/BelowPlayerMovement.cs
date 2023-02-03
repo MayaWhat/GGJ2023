@@ -8,6 +8,13 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
     [SerializeField] private int _moveTimer;
     private Vector2 _moveDirection;
 
+    private BelowPlayerSounds _playerSounds;
+
+    private void Awake()
+    {
+        _playerSounds = GetComponent<BelowPlayerSounds>();
+    }
+
     public void OnEnable()
     {
         if (_playerControls == null)
@@ -17,6 +24,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         }
         _playerControls.Below.Enable();
         _moveDirection = new Vector2(0, -1);
+        _playerSounds.Digging.Play();
     }
 
     private void OnDisable()
@@ -25,6 +33,8 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         {
             _playerControls.Below.Disable();
         }
+
+        _playerSounds.Digging.Stop();
     }
 
     private void FixedUpdate()

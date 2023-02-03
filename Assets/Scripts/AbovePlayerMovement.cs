@@ -54,7 +54,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
             return;
         }
         _rigidBody.velocity = new Vector2(_rigidBody.velocity.x, _jumpHeight);
-        _playerSounds.Jump();
+        _playerSounds.Jump.Play();
     }
 
     public void OnRoot(InputAction.CallbackContext context)

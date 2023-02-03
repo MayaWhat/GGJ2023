@@ -1,25 +1,34 @@
 ﻿using FMODUnity;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class CharacterSoundsBase : MonoBehaviour
 {
-    private Dictionary<string, StudioEventEmitter> _emitters = new Dictionary<string, StudioEventEmitter>();
+    private Dictionary<string, StudioEventEmitter> _emitters;
 
-    private void Start()
+    private void Awake()
     {
-        foreach (var sound in GetSounds())
+        if (_emitters != null)
         {
-            var emitter = gameObject.AddComponent<StudioEventEmitter>();
-            emitter.EventReference = sound.Value;
-            _emitters.Add(sound.Key, emitter);
+            return;
         }
+
+        _emitters = GetSounds().ToDictionary
+        (
+            x => x.Key, 
+            x =>
+            {
+                var emitter = gameObject.AddComponent<StudioEventEmitter>();
+                emitter.EventReference = x.Value;
+                return emitter;
+            }
+        );
     }
 
-    protected Action GetSound(string name)
+    protected StudioEventEmitter GetSound(string name)
     {
-        return _emitters[name].Play;
+        return _emitters[name];
     }
 
     protected abstract IEnumerable<KeyValuePair<string, EventReference>> GetSounds();

@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1747071345463263668
 BoxCollider2D:
@@ -72,7 +72,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.86, y: 3.2}
+    oldSize: {x: 1.28, y: 0.96}
     newSize: {x: 0.2, y: 0.2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -149,7 +149,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f3e52a62723dbb0458f76d39672bfa13, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0182a752002ebfd4e8057ac727453a60, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -174,13 +174,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 5
   _jumpHeight: 20
-  _jumpSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!114 &5166316397913234799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,4 +192,4 @@ MonoBehaviour:
       Data2: 1098187817
       Data3: -1533907071
       Data4: -2010749629
-    Path: event:/Jump
+    Path: event:/Player Sounds/Jump

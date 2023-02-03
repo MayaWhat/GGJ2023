@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{580f1a92-6358-4507-9fd1-fb658c07319a}">
+		<property name="assetPath">
+			<value>dig.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.14680272108843537</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{36aedba5-fc76-4e14-902b-1eef0d9962af}</destination>
+		</relationship>
+	</object>
+</objects>
