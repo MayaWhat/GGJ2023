@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1747071345463263668
 BoxCollider2D:
@@ -186,6 +186,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9335c8ef9a9a5a240b684a2c974af859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _walkingSound:
+    Guid:
+      Data1: 2002758860
+      Data2: 1173348348
+      Data3: 704759230
+      Data4: -1442374467
+    Path: event:/Player Sounds/Walking
   _jumpSound:
     Guid:
       Data1: 1646777701

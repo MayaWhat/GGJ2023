@@ -41,6 +41,21 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
         _horizontalVelocity = moveInput.x * _moveSpeed;
 
         _rigidBody.velocity = new Vector2(_horizontalVelocity, _rigidBody.velocity.y);
+
+        if (moveInput.x != 0)
+        {
+            if (!_playerSounds.Walking.IsPlaying())
+            {
+                _playerSounds.Walking.Play();
+            }
+        }
+        else
+        {
+            if (_playerSounds.Walking.IsPlaying())
+            {
+                _playerSounds.Walking.Stop();
+            }
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
