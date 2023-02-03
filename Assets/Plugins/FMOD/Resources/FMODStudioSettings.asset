@@ -225,10 +225,10 @@ MonoBehaviour:
   switchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: Assets/Music/fmod/fmod.fspro
-  sourceBankPath: Assets/Music/fmod/Build
+  sourceProjectPath: Assets/Audio/fmod/fmod.fspro
+  sourceBankPath: Assets/Audio/fmod/Build
   sourceBankPathUnformatted: 
-  BankRefreshCooldown: 5
+  BankRefreshCooldown: 1
   ShowBankRefreshWindow: 1
   AutomaticEventLoading: 1
   BankLoadType: 0
