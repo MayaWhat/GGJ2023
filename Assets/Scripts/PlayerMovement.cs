@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (!context.performed || Mathf.Abs(_rigidBody.velocity.y) > 0.01f)
+        if (!context.performed || Mathf.Abs(_rigidBody.velocity.y) > 0.1f)
         {
             return;
         }
