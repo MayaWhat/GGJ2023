@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
+public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 {
     private PlayerControls _playerControls;
     [SerializeField] private float _moveSpeed = 5f;
@@ -45,7 +43,6 @@ public class PlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        
     }
 
     public void OnJump(InputAction.CallbackContext context)

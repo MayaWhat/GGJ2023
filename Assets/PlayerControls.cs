@@ -134,6 +134,94 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Below"",
+            ""id"": ""4a819a9d-0f54-4e1c-b76e-652ef97c6092"",
+            ""actions"": [
+                {
+                    ""name"": ""MoveUp"",
+                    ""type"": ""Value"",
+                    ""id"": ""a2213a35-de01-4212-bc9c-507b841a97eb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MoveDown"",
+                    ""type"": ""Value"",
+                    ""id"": ""54f58b56-2373-42e9-94c6-2d6f39e50afa"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MoveLeft"",
+                    ""type"": ""Value"",
+                    ""id"": ""2b3b828f-686e-4627-8734-67fea18bfbe3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MoveRight"",
+                    ""type"": ""Value"",
+                    ""id"": ""2871bab3-62f8-402d-87ba-3c0a11833404"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""6842ce2a-51c2-437f-9392-86eaffbf6e30"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""171fb802-caaf-42d8-a5e2-3ea3c97073e6"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a4ad11bb-b5a4-422a-bffe-c5dc6af4e2c6"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""170bdaf8-21a3-4dda-913c-51b6d9733068"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -155,6 +243,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Above_Move = m_Above.FindAction("Move", throwIfNotFound: true);
         m_Above_Jump = m_Above.FindAction("Jump", throwIfNotFound: true);
         m_Above_Root = m_Above.FindAction("Root", throwIfNotFound: true);
+        // Below
+        m_Below = asset.FindActionMap("Below", throwIfNotFound: true);
+        m_Below_MoveUp = m_Below.FindAction("MoveUp", throwIfNotFound: true);
+        m_Below_MoveDown = m_Below.FindAction("MoveDown", throwIfNotFound: true);
+        m_Below_MoveLeft = m_Below.FindAction("MoveLeft", throwIfNotFound: true);
+        m_Below_MoveRight = m_Below.FindAction("MoveRight", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -259,6 +353,63 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         }
     }
     public AboveActions @Above => new AboveActions(this);
+
+    // Below
+    private readonly InputActionMap m_Below;
+    private IBelowActions m_BelowActionsCallbackInterface;
+    private readonly InputAction m_Below_MoveUp;
+    private readonly InputAction m_Below_MoveDown;
+    private readonly InputAction m_Below_MoveLeft;
+    private readonly InputAction m_Below_MoveRight;
+    public struct BelowActions
+    {
+        private @PlayerControls m_Wrapper;
+        public BelowActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MoveUp => m_Wrapper.m_Below_MoveUp;
+        public InputAction @MoveDown => m_Wrapper.m_Below_MoveDown;
+        public InputAction @MoveLeft => m_Wrapper.m_Below_MoveLeft;
+        public InputAction @MoveRight => m_Wrapper.m_Below_MoveRight;
+        public InputActionMap Get() { return m_Wrapper.m_Below; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(BelowActions set) { return set.Get(); }
+        public void SetCallbacks(IBelowActions instance)
+        {
+            if (m_Wrapper.m_BelowActionsCallbackInterface != null)
+            {
+                @MoveUp.started -= m_Wrapper.m_BelowActionsCallbackInterface.OnMoveUp;
+                @MoveUp.performed -= m_Wrapper.m_BelowActionsCallbackInterface.OnMoveUp;
+                @MoveUp.canceled -= m_Wrapper.m_BelowActionsCallbackInterface.OnMoveUp;
+                @MoveDown.started -= m_Wrapper.m_BelowActionsCallbackInterface.OnMoveDown;
+                @MoveDown.performed -= m_Wrapper.m_BelowActionsCallbackInterface.OnMoveDown;
+                @MoveDown.canceled -= m_Wrapper.m_BelowActionsCallbackInterface.OnMoveDown;
+                @MoveLeft.started -= m_Wrapper.m_BelowActionsCallbackInterface.OnMoveLeft;
+                @MoveLeft.performed -= m_Wrapper.m_BelowActionsCallbackInterface.OnMoveLeft;
+                @MoveLeft.canceled -= m_Wrapper.m_BelowActionsCallbackInterface.OnMoveLeft;
+                @MoveRight.started -= m_Wrapper.m_BelowActionsCallbackInterface.OnMoveRight;
+                @MoveRight.performed -= m_Wrapper.m_BelowActionsCallbackInterface.OnMoveRight;
+                @MoveRight.canceled -= m_Wrapper.m_BelowActionsCallbackInterface.OnMoveRight;
+            }
+            m_Wrapper.m_BelowActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @MoveUp.started += instance.OnMoveUp;
+                @MoveUp.performed += instance.OnMoveUp;
+                @MoveUp.canceled += instance.OnMoveUp;
+                @MoveDown.started += instance.OnMoveDown;
+                @MoveDown.performed += instance.OnMoveDown;
+                @MoveDown.canceled += instance.OnMoveDown;
+                @MoveLeft.started += instance.OnMoveLeft;
+                @MoveLeft.performed += instance.OnMoveLeft;
+                @MoveLeft.canceled += instance.OnMoveLeft;
+                @MoveRight.started += instance.OnMoveRight;
+                @MoveRight.performed += instance.OnMoveRight;
+                @MoveRight.canceled += instance.OnMoveRight;
+            }
+        }
+    }
+    public BelowActions @Below => new BelowActions(this);
     private int m_PlayerControlsSchemeIndex = -1;
     public InputControlScheme PlayerControlsScheme
     {
@@ -273,5 +424,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnRoot(InputAction.CallbackContext context);
+    }
+    public interface IBelowActions
+    {
+        void OnMoveUp(InputAction.CallbackContext context);
+        void OnMoveDown(InputAction.CallbackContext context);
+        void OnMoveLeft(InputAction.CallbackContext context);
+        void OnMoveRight(InputAction.CallbackContext context);
     }
 }
