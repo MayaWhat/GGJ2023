@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6963832035591407917
 SpriteRenderer:
@@ -92,9 +92,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6963832035591407920}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d816fd0b457877c41aade551914e2b7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerManager: {fileID: 6731211284990346897, guid: 963f38a0d958d5e458cce55321367b72, type: 3}
   _belowTrail: {fileID: 3594267739769475023, guid: 49a242bf4a1329e45b6364387537dc5e, type: 3}
+  _moveTimer: 0

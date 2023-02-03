@@ -3,10 +3,12 @@ using UnityEngine.InputSystem;
 
 public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 {
+    [SerializeField] private PlayerManager _playerManager;
     private PlayerControls _playerControls;
     [SerializeField] private GameObject _belowTrail;
-    [SerializeField] private int _moveTimer;
+    [SerializeField] private int _moveTimer = 50;
     private Vector2 _moveDirection;
+    private int _timer;
 
     public void OnEnable()
     {
@@ -17,6 +19,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         }
         _playerControls.Below.Enable();
         _moveDirection = new Vector2(0, -1);
+        _timer = _moveTimer;
     }
 
     private void OnDisable()
@@ -29,14 +32,14 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
     private void FixedUpdate()
     {
-        if (_moveTimer == 0)
+        if (_timer == 0)
         {
             Move();
-            _moveTimer = 50;
+            _timer = _moveTimer;
         }
         else
         {
-            _moveTimer--;
+            _timer--;
         }
     }
 
@@ -44,6 +47,11 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
     {
         GameObject trail = Instantiate(_belowTrail, transform.position, transform.rotation);
         transform.position = new Vector3(transform.position.x + _moveDirection.x, transform.position.y + _moveDirection.y);
+
+        if (transform.position.y >= 0)
+        {
+            _playerManager.Switch(toAbove: true);
+        }
     }
 
     #region MoveInputCallbacks

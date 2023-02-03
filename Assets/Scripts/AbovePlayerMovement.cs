@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 {
+    [SerializeField] private PlayerManager _playerManager;
     private PlayerControls _playerControls;
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _jumpHeight = 20f;
@@ -56,6 +57,6 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
     public void OnRoot(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        _playerManager.Switch(toAbove: false);
     }
 }
