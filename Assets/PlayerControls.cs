@@ -35,6 +35,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""f73e877d-d32a-4d23-a284-8560312204c0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Root"",
+                    ""type"": ""Button"",
+                    ""id"": ""5efb00f1-1ec9-477c-a22a-9599926072e4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -95,12 +113,23 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""37cf6008-754e-4948-9a50-c1ac9b80f1cd"",
+                    ""id"": ""a415871c-4dfc-4938-862a-d8c34fe0e1ee"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""31968afe-7a09-4020-a3d7-c2c8ef536f37"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Root"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -124,6 +153,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         // Above
         m_Above = asset.FindActionMap("Above", throwIfNotFound: true);
         m_Above_Move = m_Above.FindAction("Move", throwIfNotFound: true);
+        m_Above_Jump = m_Above.FindAction("Jump", throwIfNotFound: true);
+        m_Above_Root = m_Above.FindAction("Root", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -184,11 +215,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Above;
     private IAboveActions m_AboveActionsCallbackInterface;
     private readonly InputAction m_Above_Move;
+    private readonly InputAction m_Above_Jump;
+    private readonly InputAction m_Above_Root;
     public struct AboveActions
     {
         private @PlayerControls m_Wrapper;
         public AboveActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Above_Move;
+        public InputAction @Jump => m_Wrapper.m_Above_Jump;
+        public InputAction @Root => m_Wrapper.m_Above_Root;
         public InputActionMap Get() { return m_Wrapper.m_Above; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -201,6 +236,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Move.started -= m_Wrapper.m_AboveActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_AboveActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_AboveActionsCallbackInterface.OnMove;
+                @Jump.started -= m_Wrapper.m_AboveActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_AboveActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_AboveActionsCallbackInterface.OnJump;
+                @Root.started -= m_Wrapper.m_AboveActionsCallbackInterface.OnRoot;
+                @Root.performed -= m_Wrapper.m_AboveActionsCallbackInterface.OnRoot;
+                @Root.canceled -= m_Wrapper.m_AboveActionsCallbackInterface.OnRoot;
             }
             m_Wrapper.m_AboveActionsCallbackInterface = instance;
             if (instance != null)
@@ -208,6 +249,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
+                @Root.started += instance.OnRoot;
+                @Root.performed += instance.OnRoot;
+                @Root.canceled += instance.OnRoot;
             }
         }
     }
@@ -224,5 +271,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     public interface IAboveActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+        void OnRoot(InputAction.CallbackContext context);
     }
 }
