@@ -10,6 +10,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
     private Rigidbody2D _rigidBody;
     private AbovePlayerSounds _playerSounds;
     private int _tilemapMask;
+    private bool _isGrounded;
 
     private void Awake()
     {
@@ -40,11 +41,15 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
     private void FixedUpdate()
     {
+        var groundHit = Physics2D.Raycast(transform.position, new Vector2(0, -1), 1f, _tilemapMask);
+
+        _isGrounded = groundHit.collider != null;
+
         var moveInput = _playerControls.Above.Move.ReadValue<Vector2>();
 
-        var hit = Physics2D.Raycast(transform.position, moveInput, 1f, _tilemapMask);
+        var moveHit = Physics2D.Raycast(transform.position, moveInput, 1f, _tilemapMask);
 
-        if (hit.collider != null)
+        if (moveHit.collider != null)
         {
             return;
         }
@@ -75,7 +80,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (!context.performed || Mathf.Abs(_rigidBody.velocity.y) > 0.1f)
+        if (!context.performed || !_isGrounded)
         {
             return;
         }
@@ -85,7 +90,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
     public void OnRoot(InputAction.CallbackContext context)
     {
-        if (transform.position.y > 1f)
+        if (transform.position.y > 1f || !_isGrounded)
         {
             return;
         }
