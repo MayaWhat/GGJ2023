@@ -163,6 +163,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
         root.SetActive(false);
         _rootTrail.Remove(root);
+        _moveTimer = _rootTrail.Count > 0 ? 8 / _rootTrail.Count : 8; 
     }
 
     #region MoveInputCallbacks
