@@ -13,4 +13,14 @@ public class AnimationManager : MonoBehaviour
     {
         _animator.SetBool("IsWalking", walking);
     }
+
+    public void Root()
+    {
+        _animator.Play("Root");
+    }
+
+    public void Uproot()
+    {
+        _animator.Play("Uproot");
+    }
 }

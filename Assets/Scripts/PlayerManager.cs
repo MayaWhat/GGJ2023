@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviour
     private AbovePlayerMovement _aboveMovement;
     private BelowPlayerMovement _belowMovement;
     private CritterMovement _critterMovement;
+    private AnimationManager _animationManager;
 
     private void Awake()
     {
@@ -19,6 +20,7 @@ public class PlayerManager : MonoBehaviour
         _aboveMovement = _abovePlayer.GetComponent<AbovePlayerMovement>();
         _belowMovement = _belowPlayer.GetComponent<BelowPlayerMovement>();
         _critterMovement = _abovePlayer.GetComponent<CritterMovement>();
+        _animationManager = _abovePlayer.GetComponentInChildren<AnimationManager>();
 
         _critterMovement.enabled = false;
         _aboveMovement.enabled = true;
@@ -41,6 +43,7 @@ public class PlayerManager : MonoBehaviour
         ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.7f;
         _aboveMovement.gameObject.transform.position =
             new Vector3(_aboveMovement.gameObject.transform.position.x, _aboveMovement.gameObject.transform.position.y, -1f);
+        _animationManager = targetCritter.GetComponentInChildren<AnimationManager>();
     }
 
     public void Return()
@@ -48,6 +51,7 @@ public class PlayerManager : MonoBehaviour
         _belowMovement.enabled = false;
         _aboveMovement.enabled = true;
         ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.7f;
+        _animationManager.Uproot();
     }
 
     public void Root(Vector3 position)
@@ -57,5 +61,6 @@ public class PlayerManager : MonoBehaviour
         _belowMovement.enabled = true;
         _belowPlayer.transform.position = position;
         ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.4f;
+        _animationManager.Root();
     }
 }
