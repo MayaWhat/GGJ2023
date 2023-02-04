@@ -6,12 +6,12 @@ public class CloudFactory : MonoBehaviour
     [SerializeField] private List<Sprite> _cloudSprites;
     [SerializeField] private GameObject _cloudPrefab;
     private List<GameObject> _clouds = new List<GameObject>();
-    [SerializeField] private int _cloudSpawnDeviation = 5;
-    [SerializeField] private int _cloudSpawnFrequency = 10;
+    private int _cloudSpawnDeviation = 10;
+    private int _cloudSpawnFrequency = 40;
     private int _cloudTimer = 0;
     private int _lastCloudSector = 0;
     [SerializeField] private GameObject _camera;
-    [SerializeField] private float _parallaxEffect;
+    private float _parallaxEffect = 0.9f;
     private float _startPosition;
 
     private void Awake()
@@ -23,10 +23,10 @@ public class CloudFactory : MonoBehaviour
     {
         if (_cloudTimer <= 0)
         {
-            var cloudY = Random.Range(4, 34);
+            var cloudY = Random.Range(4, 20);
             if (cloudY / 10 == _lastCloudSector)
             {
-                cloudY += 10;
+                cloudY -= 5;
             }
             _lastCloudSector = cloudY / 10;
             GameObject cloud = Instantiate(_cloudPrefab, new Vector3(_camera.transform.position.x + 20f, cloudY), new Quaternion());
