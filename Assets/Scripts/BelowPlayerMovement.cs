@@ -33,6 +33,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         ServiceLocator.Instance.Camera.Follow = transform;
         _rootTrail = new List<GameObject>();
         _isRetracting = false;
+        _renderer.enabled = true;
     }
 
     private void OnDisable()
@@ -81,6 +82,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
         if (transform.position.y >= 0)
         {
+            _renderer.enabled = false;
             ServiceLocator.Instance.PlayerManager.Switch(new Vector3(transform.position.x, 1), toAbove: true);
         }
     }
