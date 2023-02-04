@@ -53,10 +53,15 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
         var moveInput = _playerControls.Above.Move.ReadValue<Vector2>();
 
-        var moveHit = Physics2D.Raycast(transform.position, moveInput, (transform.lossyScale.x + 0.25f), _groundMask & _hardGroundMask);
+        var moveHit = Physics2D.Raycast(transform.position, moveInput, (transform.lossyScale.x + 0.25f), _groundMask | _hardGroundMask);
 
         if (moveHit.collider != null)
         {
+            if (_playerSounds.Walking.IsPlaying())
+            {
+                _playerSounds.Walking.Stop();
+            }
+            _animationManager.SetWalking(false);
             return;
         }
 

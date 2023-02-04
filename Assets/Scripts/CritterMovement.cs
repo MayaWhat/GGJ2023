@@ -3,8 +3,8 @@ using UnityEngine;
 public class CritterMovement : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 2f;
-    [SerializeField] private float _moveRange = 5;
-    [SerializeField] private float _jumpHeight = 5;
+    [SerializeField] private float _moveRange = 5f;
+    [SerializeField] private float _jumpHeight = 8f;
     private float _xStartPosition;
     private bool _movingLeft = false;
     [SerializeField] private MoveType _moveType;
@@ -15,7 +15,7 @@ public class CritterMovement : MonoBehaviour
     {
         _rigidBody = GetComponent<Rigidbody2D>();
         _xStartPosition = transform.position.x;
-        if (_moveType == MoveType.Random && Random.Range(0, 1) == 1)
+        if (Random.Range(0, 2) == 0)
         {
             _movingLeft = true;
         }
@@ -66,7 +66,7 @@ public class CritterMovement : MonoBehaviour
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
 
-        if (_moveType == MoveType.RandomJumping && Random.Range(0, 512) == 0)
+        if (_moveType == MoveType.RandomJumping && Random.Range(0, 400) == 0)
         {
             _rigidBody.velocity = new Vector2(_rigidBody.velocity.x, _jumpHeight);
         }

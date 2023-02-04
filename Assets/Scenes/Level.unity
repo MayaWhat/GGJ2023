@@ -131,6 +131,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 287927170633077225, guid: 400d57e694c77a845b2129bbbcbc6891, type: 3}
+      propertyPath: _moveType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1747071345463263656, guid: 400d57e694c77a845b2129bbbcbc6891, type: 3}
       propertyPath: m_Name
       value: AbovePlayer (1)
