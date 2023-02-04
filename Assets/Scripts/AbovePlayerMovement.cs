@@ -6,7 +6,6 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
     private PlayerControls _playerControls;
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _jumpHeight = 30f;
-    private float _horizontalVelocity;
     private Rigidbody2D _rigidBody;
     private AbovePlayerSounds _playerSounds;
     private int _groundMask;
@@ -52,16 +51,16 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
         var moveInput = _playerControls.Above.Move.ReadValue<Vector2>();
 
-        var moveHit = Physics2D.Raycast(transform.position, moveInput, 1f, _groundMask);
+        var moveHit = Physics2D.Raycast(transform.position, moveInput, 1f, _groundMask & _hardGroundMask);
 
         if (moveHit.collider != null)
         {
             return;
         }
 
-        _horizontalVelocity = moveInput.x * _moveSpeed;
+        var horizontalVelocity = moveInput.x * _moveSpeed;
 
-        _rigidBody.velocity = new Vector2(_horizontalVelocity, _rigidBody.velocity.y);
+        _rigidBody.velocity = new Vector2(horizontalVelocity, _rigidBody.velocity.y);
 
         if (moveInput.x != 0)
         {

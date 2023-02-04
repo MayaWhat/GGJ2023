@@ -8,7 +8,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 {
     private PlayerControls _playerControls;
     [SerializeField] private GameObject _belowTrail;
-    [SerializeField] private int _moveTimer = 10;
+    [SerializeField] private int _moveTimer = 20;
     private SpriteRenderer _renderer;
     private BelowPlayerSounds _playerSounds;
     private Vector2 _moveDirection;
@@ -19,7 +19,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
     private int _groundMask;
     private int _blockerMask;
     private int _critterMask;
-    private AbovePlayerMovement _targetCritter;
+    private GameObject _targetCritter;
 
     private void Awake()
     {
@@ -39,7 +39,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         }
         _playerControls.Below.Enable();
         _moveDirection = new Vector2(0, -1);
-        _moveTimer = 30;
+        _moveTimer = 20;
         _timer = 0;
         ServiceLocator.Instance.Camera.Follow = transform;
         ServiceLocator.Instance.MusicController.Dark();
@@ -101,7 +101,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
             var isCritter = Physics2D.BoxCast(transform.position + (Vector3)_moveDirection + new Vector3(0.5f, -0.5f, 0f), new Vector2(0.5f, 0.5f), 0, Vector2.zero, 0, _critterMask);
             if (isCritter.collider != null)
             {
-                _targetCritter = isCritter.collider.GetComponent<AbovePlayerMovement>();
+                _targetCritter = isCritter.collider.gameObject;
                 if (_targetCritter != null)
                 {
                     StartRetract(true);
@@ -128,7 +128,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
     private void StartRetract(bool forwards = false)
     {
         _retractForwards = forwards;
-        _moveTimer = 5;
+        _moveTimer = 2;
         _isRetracting = true;
         _playerControls.Below.Disable();
     }

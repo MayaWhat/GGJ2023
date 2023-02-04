@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
     private GameObject _belowPlayer;
     private AbovePlayerMovement _aboveMovement;
     private BelowPlayerMovement _belowMovement;
+    private CritterMovement _critterMovement;
 
     private void Awake()
     {
@@ -15,15 +16,19 @@ public class PlayerManager : MonoBehaviour
         _belowPlayer = Instantiate(_belowPlayerPrefab);
         _aboveMovement = _abovePlayer.GetComponent<AbovePlayerMovement>();
         _belowMovement = _belowPlayer.GetComponent<BelowPlayerMovement>();
+        _critterMovement = _abovePlayer.GetComponent<CritterMovement>();
 
+        _critterMovement.enabled = false;
         _aboveMovement.enabled = true;
         _belowMovement.enabled = false;
         _belowPlayer.SetActive(false);
     }
 
-    public void Possess(AbovePlayerMovement aboveMovement)
+    public void Possess(GameObject targetCritter)
     {
-        _aboveMovement = aboveMovement;
+        _aboveMovement = targetCritter.GetComponent<AbovePlayerMovement>();
+        _critterMovement = targetCritter.GetComponent <CritterMovement>();
+        _critterMovement.enabled = false;
         _aboveMovement.enabled = true;
         _belowMovement.enabled = false;
     }
