@@ -16,7 +16,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
     {
         _rigidBody = GetComponent<Rigidbody2D>();
         _playerSounds = GetComponent<AbovePlayerSounds>();
-        _tilemapMask = LayerMask.GetMask("Tilemap");
+        _tilemapMask = LayerMask.GetMask("Ground");
     }
 
     public void OnEnable()

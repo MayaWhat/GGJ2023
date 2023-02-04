@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,15 +17,16 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
     private bool _isRetracting = false;
     private Vector3? _retractEnd = null;
     private bool _retractForwards = false;
-    private bool _atSurface;
-    private int _tilemapMask;
+    private int _groundMask;
+    private int _blockerMask;
 
     private void Awake()
     {
         _renderer = GetComponent<SpriteRenderer>();
         _playerSounds = GetComponent<BelowPlayerSounds>();
-        _tilemapMask = LayerMask.GetMask("Tilemap");
-    }
+        _groundMask = LayerMask.GetMask("Ground");
+        _blockerMask = LayerMask.GetMask("HardGround");
+}
 
     public void OnEnable()
     {
@@ -36,7 +38,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         _playerControls.Below.Enable();
         _moveDirection = new Vector2(0, -1);
         _moveTimer = 30;
-        _timer = _moveTimer;
+        _timer = 0;
         ServiceLocator.Instance.Camera.Follow = transform;
         ServiceLocator.Instance.MusicController.Dark();
         _rootTrail = new List<GameObject>();
@@ -81,28 +83,38 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
     private void Move()
     {
-        GameObject root = Instantiate(_belowTrail, transform.position, transform.rotation);
-        _rootTrail.Add(root);
-        transform.position = new Vector3(transform.position.x + _moveDirection.x, transform.position.y + _moveDirection.y);
-
-        foreach (var trail in _rootTrail)
+        // Check just the middle of the square rather than the full square to avoid detecting edges of adjacent tiles
+        var isBlocker = Physics2D.BoxCast(transform.position + (Vector3)_moveDirection + new Vector3(0.5f, -0.5f, 0f), new Vector2(0.5f, 0.5f), 0, Vector2.zero, 0, _blockerMask);
+        if (isBlocker.collider != null)
         {
-            if (trail.transform.position == transform.position)
-            {
-                StartRetract(false);
-                return;
-            }
+            StartRetract(false);
+            return;
         }
 
-        if (_atSurface && _moveDirection.y == 1)
+        var root = Instantiate(_belowTrail, transform.position, transform.rotation);
+        _rootTrail.Add(root);
+
+        var isGround = Physics2D.BoxCast(transform.position + (Vector3)_moveDirection + new Vector3(0.5f, -0.5f, 0f), new Vector2(0.5f, 0.5f), 0, Vector2.zero, 0, +_groundMask);
+        if (isGround.collider == null)
         {
-            _renderer.enabled = false;
             _retractEnd = new Vector3(transform.position.x, transform.position.y + 1);
             StartRetract(true);
+            return;
         }
 
-        var aboveHit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 1), new Vector2(0, 1), 1f, _tilemapMask);
-        _atSurface = aboveHit.collider == null;
+        StartCoroutine(DoMove());
+    }
+
+    private IEnumerator DoMove()
+    {
+        var startingPosition = transform.position;
+        var direction = _moveDirection;
+
+        for (var i = 1; i <= _moveTimer; i++)
+        {
+            transform.position = startingPosition + (Vector3)(direction * ((float)i / _moveTimer));
+            yield return new WaitForFixedUpdate();
+        }
     }
 
     private void StartRetract(bool forwards = false)
