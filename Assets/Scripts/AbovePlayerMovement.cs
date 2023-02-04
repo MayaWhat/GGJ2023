@@ -9,13 +9,13 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
     private float _horizontalVelocity;
     private Rigidbody2D _rigidBody;
     private AbovePlayerSounds _playerSounds;
-    private int _obsticlesMask;
+    private int _tilemapMask;
 
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
         _playerSounds = GetComponent<AbovePlayerSounds>();
-        _obsticlesMask = LayerMask.GetMask("Obsticles");
+        _tilemapMask = LayerMask.GetMask("Tilemap");
     }
 
     public void OnEnable()
@@ -40,9 +40,9 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
     private void FixedUpdate()
     {
-        var moveInput = _playerControls.Above.Move.ReadValue<Vector2>();        
+        var moveInput = _playerControls.Above.Move.ReadValue<Vector2>();
 
-        var hit = Physics2D.Raycast(transform.position, moveInput, 1f, _obsticlesMask);
+        var hit = Physics2D.Raycast(transform.position, moveInput, 1f, _tilemapMask);
 
         if (hit.collider != null)
         {
