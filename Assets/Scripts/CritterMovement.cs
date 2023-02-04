@@ -9,6 +9,7 @@ public class CritterMovement : MonoBehaviour
     private bool _movingLeft = false;
     [SerializeField] private MoveType _moveType;
     private Rigidbody2D _rigidBody;
+    private AnimationManager _animationManager;
 
     private void Awake()
     {
@@ -18,6 +19,7 @@ public class CritterMovement : MonoBehaviour
         {
             _movingLeft = true;
         }
+        _animationManager = GetComponent<AnimationManager>();
     }
 
     private void FixedUpdate()
@@ -44,6 +46,7 @@ public class CritterMovement : MonoBehaviour
 
             if (Random.Range(0, 64) == 0)
             {
+                _animationManager.SetWalking(true);
                 return;
             }
         }
@@ -51,6 +54,8 @@ public class CritterMovement : MonoBehaviour
         var horizontalVelocity = (_movingLeft ? -1f : 1f) * _moveSpeed;
 
         _rigidBody.velocity = new Vector2(horizontalVelocity, _rigidBody.velocity.y);
+
+        _animationManager.SetWalking(true);
 
         if (_moveType == MoveType.RandomJumping && Random.Range(0, 512) == 0)
         {

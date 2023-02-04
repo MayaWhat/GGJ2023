@@ -12,6 +12,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
     private int _hardGroundMask;
     private bool _onGround;
     private bool _onHardGround;
+    private AnimationManager _animationManager;
 
     private void Awake()
     {
@@ -19,6 +20,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
         _playerSounds = GetComponent<AbovePlayerSounds>();
         _groundMask = LayerMask.GetMask("Ground");
         _hardGroundMask = LayerMask.GetMask("HardGround");
+        _animationManager = GetComponent<AnimationManager>();
     }
 
     public void OnEnable()
@@ -68,6 +70,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
             {
                 _playerSounds.Walking.Play();
             }
+            _animationManager.SetWalking(true);
         }
         else
         {
@@ -75,6 +78,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
             {
                 _playerSounds.Walking.Stop();
             }
+            _animationManager.SetWalking(false);
         }
     }
 
