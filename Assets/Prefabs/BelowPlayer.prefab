@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6963832035591407917
 SpriteRenderer:
@@ -113,6 +113,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f7a9a7b70228446a26e6cd1773800b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _burrowSound:
+    Guid:
+      Data1: -1189681784
+      Data2: 1201063840
+      Data3: 2065512858
+      Data4: -281145201
+    Path: event:/Player Sounds/Burrow
   _diggingSound:
     Guid:
       Data1: -1453328075

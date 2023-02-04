@@ -31,6 +31,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         _moveDirection = new Vector2(0, -1);
         _moveTimer = 30;
         _timer = _moveTimer;
+        ServiceLocator.Instance.Camera.Follow = transform;
         _rootTrail = new List<GameObject>();
         _isRetracting = false;
     }
