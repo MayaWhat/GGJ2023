@@ -8,7 +8,6 @@ public class CritterMovement : MonoBehaviour
     private float _xStartPosition;
     private bool _movingLeft = false;
     [SerializeField] private MoveType _moveType;
-    private float _moveTimer = 30;
     private Rigidbody2D _rigidBody;
 
     private void Awake()

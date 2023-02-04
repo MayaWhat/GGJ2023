@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1747071345463263666}
   - component: {fileID: 5166316397913234799}
   - component: {fileID: 287927170633077225}
+  - component: {fileID: 2741323026696952185}
   m_Layer: 7
   m_Name: AbovePlayer
   m_TagString: Untagged
@@ -217,3 +218,23 @@ MonoBehaviour:
   _moveRange: 3
   _jumpHeight: 8
   _moveType: 0
+--- !u!95 &2741323026696952185
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1747071345463263656}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c2f809c005f70b1418affb8c0eb66cc4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
