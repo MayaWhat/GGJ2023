@@ -14,6 +14,8 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
     private int _timer;
     private List<GameObject> _rootTrail;
     private bool _isRetracting = false;
+    private Vector3? _retractEnd = null;
+    private bool _retractForwards = false;
 
     private void Awake()
     {
@@ -40,6 +42,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         _playerSounds.Burrow.Play();
         _playerSounds.Digging.Play();
         _renderer.enabled = true;
+        _retractEnd = null;
     }
 
     private void OnDisable()
@@ -83,7 +86,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         {
             if (trail.transform.position == transform.position)
             {
-                StartRetract();
+                StartRetract(false);
                 return;
             }
         }
@@ -91,12 +94,14 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         if (transform.position.y >= 0)
         {
             _renderer.enabled = false;
-            ServiceLocator.Instance.PlayerManager.Switch(new Vector3(transform.position.x, 1), toAbove: true);
+            _retractEnd = new Vector3(transform.position.x, 1);
+            StartRetract(true);
         }
     }
 
-    private void StartRetract()
+    private void StartRetract(bool forwards = false)
     {
+        _retractForwards = forwards;
         _moveTimer = 5;
         _isRetracting = true;
         _playerControls.Below.Disable();
@@ -108,13 +113,22 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
         if (_rootTrail.Count == 0)
         {
-            ServiceLocator.Instance.PlayerManager.Switch(toAbove: true);
+            ServiceLocator.Instance.PlayerManager.Switch(_retractEnd, toAbove: true);
             return;
         }
 
-        var last = _rootTrail.Last();
-        last.SetActive(false);
-        _rootTrail.Remove(last);
+        GameObject root;
+        if (_retractForwards)
+        {
+            root = _rootTrail.First();
+        }
+        else
+        {
+            root = _rootTrail.Last();
+        }
+
+        root.SetActive(false);
+        _rootTrail.Remove(root);
     }
 
     #region MoveInputCallbacks
