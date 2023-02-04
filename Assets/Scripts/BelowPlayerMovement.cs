@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 {
-    [SerializeField] private PlayerManager _playerManager;
     private PlayerControls _playerControls;
     [SerializeField] private GameObject _belowTrail;
     [SerializeField] private int _moveTimer = 30;
@@ -82,7 +81,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
         if (transform.position.y >= 0)
         {
-            _playerManager.Switch(new Vector3(transform.position.x, 1), toAbove: true);
+            ServiceLocator.Instance.PlayerManager.Switch(new Vector3(transform.position.x, 1), toAbove: true);
         }
     }
 
@@ -99,7 +98,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
         if (_rootTrail.Count == 0)
         {
-            _playerManager.Switch(toAbove: true);
+            ServiceLocator.Instance.PlayerManager.Switch(toAbove: true);
             return;
         }
 

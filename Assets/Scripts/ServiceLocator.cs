@@ -8,6 +8,8 @@ public class ServiceLocator : MonoBehaviour
     public MusicController MusicController { get; private set; }
     public CinemachineVirtualCamera Camera { get; private set; }
 
+    public PlayerManager PlayerManager { get; private set; }
+
     private void Awake()
     {
         if (Instance != null)
@@ -19,5 +21,6 @@ public class ServiceLocator : MonoBehaviour
         Instance = this;
         MusicController = GetComponentInChildren<MusicController>();
         Camera = GetComponentInChildren<CinemachineVirtualCamera>();
+        PlayerManager = GetComponentInChildren<PlayerManager>();
     }
 }
