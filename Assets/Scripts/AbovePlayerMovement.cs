@@ -68,11 +68,11 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
         {
             if (moveInput.x > 0)
             {
-                transform.localScale = new Vector3(1f, 1f, 1f);
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             }
             else
             {
-                transform.localScale = new Vector3(-1f, 1f, 1f);
+                transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             }
 
             if (!_playerSounds.Walking.IsPlaying())
@@ -112,6 +112,6 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
             return;
         }
 
-        ServiceLocator.Instance.PlayerManager.Root(new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y) - 1));
+        ServiceLocator.Instance.PlayerManager.Root(new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y) - transform.localScale.y));
     }
 }
