@@ -25,7 +25,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
     private void Awake()
     {
-        _renderer = GetComponent<SpriteRenderer>();
+        _renderer = GetComponentInChildren<SpriteRenderer>();
         _playerSounds = GetComponent<BelowPlayerSounds>();
         _groundMask = LayerMask.GetMask("Ground");
         _blockerMask = LayerMask.GetMask("HardGround");
@@ -43,6 +43,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         }
         _playerControls.Below.Enable();
         _moveDirection = new Vector2(0, -1);
+        _renderer.transform.rotation = Quaternion.AngleAxis(0f, Vector3.forward);
         _moveTimer = 12;
         _timer = 0;
         ServiceLocator.Instance.Camera.Follow = transform;
@@ -134,6 +135,23 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         _trailColliders.Add(collider);
         var startingPosition = transform.position;
         var direction = _moveDirection;
+
+        if (direction == Vector2.up)
+        {
+            _renderer.transform.rotation = Quaternion.AngleAxis(180f, Vector3.forward);
+        }
+        else if (direction == Vector2.right)
+        {
+            _renderer.transform.rotation = Quaternion.AngleAxis(90f, Vector3.forward);
+        }
+        else if (direction == Vector2.left)
+        {
+            _renderer.transform.rotation = Quaternion.AngleAxis(-90f, Vector3.forward);
+        }
+        else
+        {
+            _renderer.transform.rotation = Quaternion.AngleAxis(0f, Vector3.forward);
+        }
 
         for (var i = 1; i <= _moveTimer; i++)
         {
