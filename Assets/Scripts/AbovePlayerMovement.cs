@@ -45,15 +45,15 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
     private void FixedUpdate()
     {
-        var groundHit = Physics2D.Raycast(transform.position, new Vector2(0, -1), 1f, _groundMask);
+        var groundHit = Physics2D.Raycast(transform.position, new Vector2(0, -1), (transform.lossyScale.y + 0.25f), _groundMask);
         _onGround = groundHit.collider != null;
 
-        var hardGroundHit = Physics2D.Raycast(transform.position, new Vector2(0, -1), 1f, _hardGroundMask);
+        var hardGroundHit = Physics2D.Raycast(transform.position, new Vector2(0, -1), (transform.lossyScale.y + 0.25f), _hardGroundMask);
         _onHardGround = hardGroundHit.collider != null;
 
         var moveInput = _playerControls.Above.Move.ReadValue<Vector2>();
 
-        var moveHit = Physics2D.Raycast(transform.position, moveInput, 1f, _groundMask & _hardGroundMask);
+        var moveHit = Physics2D.Raycast(transform.position, moveInput, (transform.lossyScale.x + 0.25f), _groundMask & _hardGroundMask);
 
         if (moveHit.collider != null)
         {
