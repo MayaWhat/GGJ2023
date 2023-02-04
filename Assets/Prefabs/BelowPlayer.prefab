@@ -98,9 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d816fd0b457877c41aade551914e2b7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerManager: {fileID: 6731211284990346897, guid: 963f38a0d958d5e458cce55321367b72, type: 3}
   _belowTrail: {fileID: 3594267739769475023, guid: 49a242bf4a1329e45b6364387537dc5e, type: 3}
-  _moveTimer: 0
+  _moveTimer: 10
 --- !u!114 &3799676484459607388
 MonoBehaviour:
   m_ObjectHideFlags: 0
