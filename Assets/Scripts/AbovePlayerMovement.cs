@@ -25,6 +25,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
             _playerControls.Above.SetCallbacks(this);
         }
         _playerControls.Above.Enable();
+        ServiceLocator.Instance.Camera.Follow = transform;
     }
 
     private void OnDisable()
