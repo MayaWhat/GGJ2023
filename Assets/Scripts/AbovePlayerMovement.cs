@@ -25,6 +25,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
         }
         _playerControls.Above.Enable();
         ServiceLocator.Instance.Camera.Follow = transform;
+        ServiceLocator.Instance.MusicController.Happy();
     }
 
     private void OnDisable()
