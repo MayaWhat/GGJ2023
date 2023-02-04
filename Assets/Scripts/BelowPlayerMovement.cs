@@ -207,7 +207,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         }
 
         _trail.positionCount -= 1;
-        _moveTimer = _trail.positionCount > 0 ? 5 / _trail.positionCount : 5; 
+        _moveTimer = _trail.positionCount > 0 ? 5 / _trail.positionCount : 5;
     }
 
     #region MoveInputCallbacks

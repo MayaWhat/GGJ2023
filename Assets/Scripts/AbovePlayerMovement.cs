@@ -117,6 +117,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
             return;
         }
 
+        _animationManager.Root();
         ServiceLocator.Instance.PlayerManager.Root(new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y) - transform.localScale.y));
     }
 }
