@@ -5,18 +5,21 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 {
     private PlayerControls _playerControls;
     [SerializeField] private float _moveSpeed = 5f;
-    [SerializeField] private float _jumpHeight = 20f;
+    [SerializeField] private float _jumpHeight = 30f;
     private float _horizontalVelocity;
     private Rigidbody2D _rigidBody;
     private AbovePlayerSounds _playerSounds;
-    private int _tilemapMask;
-    private bool _isGrounded;
+    private int _groundMask;
+    private int _hardGroundMask;
+    private bool _onGround;
+    private bool _onHardGround;
 
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
         _playerSounds = GetComponent<AbovePlayerSounds>();
-        _tilemapMask = LayerMask.GetMask("Ground");
+        _groundMask = LayerMask.GetMask("Ground");
+        _hardGroundMask = LayerMask.GetMask("HardGround");
     }
 
     public void OnEnable()
@@ -41,13 +44,15 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
     private void FixedUpdate()
     {
-        var groundHit = Physics2D.Raycast(transform.position, new Vector2(0, -1), 1f, _tilemapMask);
+        var groundHit = Physics2D.Raycast(transform.position, new Vector2(0, -1), 1f, _groundMask);
+        _onGround = groundHit.collider != null;
 
-        _isGrounded = groundHit.collider != null;
+        var hardGroundHit = Physics2D.Raycast(transform.position, new Vector2(0, -1), 1f, _hardGroundMask);
+        _onHardGround = hardGroundHit.collider != null;
 
         var moveInput = _playerControls.Above.Move.ReadValue<Vector2>();
 
-        var moveHit = Physics2D.Raycast(transform.position, moveInput, 1f, _tilemapMask);
+        var moveHit = Physics2D.Raycast(transform.position, moveInput, 1f, _groundMask);
 
         if (moveHit.collider != null)
         {
@@ -80,7 +85,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (!context.performed || !_isGrounded)
+        if (!context.performed || (!_onGround && !_onHardGround))
         {
             return;
         }
@@ -90,7 +95,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
     public void OnRoot(InputAction.CallbackContext context)
     {
-        if (!_isGrounded)
+        if (!context.performed || !_onGround)
         {
             return;
         }

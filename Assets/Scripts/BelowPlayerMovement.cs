@@ -8,7 +8,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 {
     private PlayerControls _playerControls;
     [SerializeField] private GameObject _belowTrail;
-    [SerializeField] private int _moveTimer = 30;
+    [SerializeField] private int _moveTimer = 10;
     private SpriteRenderer _renderer;
     private BelowPlayerSounds _playerSounds;
     private Vector2 _moveDirection;
