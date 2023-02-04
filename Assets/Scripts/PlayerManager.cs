@@ -15,23 +15,31 @@ public class PlayerManager : MonoBehaviour
 
         _aboveMovement.enabled = true;
         _belowMovement.enabled = false;
+        _belowPlayer.SetActive(false);
     }
 
-    public void Switch(bool toAbove = false)
+    public void Switch(Vector3? position = null, bool toAbove = false)
     {
         if (toAbove)
         {
             _belowMovement.enabled = false;
             _aboveMovement.enabled = true;
 
-            _abovePlayer.transform.position = _belowPlayer.transform.position;
+            if (position.HasValue)
+            {
+                _abovePlayer.transform.position = position.Value;
+            }            
         }
         else
         {
+            _belowPlayer.SetActive(true);
             _aboveMovement.enabled = false;
             _belowMovement.enabled = true;
 
-            _belowPlayer.transform.position = new Vector3(Mathf.Round(_abovePlayer.transform.position.x), -1);
+            if (position.HasValue)
+            {
+                _belowPlayer.transform.position = position.Value;
+            }
         }
     }
 }
