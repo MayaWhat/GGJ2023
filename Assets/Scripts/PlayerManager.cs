@@ -1,3 +1,5 @@
+using Cinemachine;
+using FMOD.Studio;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -22,6 +24,7 @@ public class PlayerManager : MonoBehaviour
         _aboveMovement.enabled = true;
         _belowMovement.enabled = false;
         _belowPlayer.SetActive(false);
+        ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.7f;
     }
 
     public void Possess(GameObject targetCritter)
@@ -31,12 +34,14 @@ public class PlayerManager : MonoBehaviour
         _critterMovement.enabled = false;
         _aboveMovement.enabled = true;
         _belowMovement.enabled = false;
+        ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.7f;
     }
 
     public void Return()
     {
         _belowMovement.enabled = false;
         _aboveMovement.enabled = true;
+        ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.7f;
     }
 
     public void Root(Vector3 position)
@@ -45,5 +50,6 @@ public class PlayerManager : MonoBehaviour
         _aboveMovement.enabled = false;
         _belowMovement.enabled = true;
         _belowPlayer.transform.position = position;
+        ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.4f;
     }
 }
