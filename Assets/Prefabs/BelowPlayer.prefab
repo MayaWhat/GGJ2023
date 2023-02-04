@@ -100,9 +100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d816fd0b457877c41aade551914e2b7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveTimer: 10
   _belowTrail: {fileID: 9220817519662782989, guid: 29c3de13f1f1a7a46af8806e5c7829c6, type: 3}
   _belowTrailCollider: {fileID: 5670147233253963981, guid: e08cf9ecc360a12438f19a13cdfee738, type: 3}
+  _moveTimer: 10
 --- !u!114 &3799676484459607388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +129,13 @@ MonoBehaviour:
       Data3: 462402439
       Data4: 275151102
     Path: event:/Player Sounds/Digging
+  _unburrowSound:
+    Guid:
+      Data1: -1144229521
+      Data2: 1108525933
+      Data3: 2102071454
+      Data4: 939342104
+    Path: event:/Player Sounds/Unburrow
 --- !u!50 &5908764394855266512
 Rigidbody2D:
   serializedVersion: 4
