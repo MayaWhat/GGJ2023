@@ -20,7 +20,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
         _playerSounds = GetComponent<AbovePlayerSounds>();
         _groundMask = LayerMask.GetMask("Ground");
         _hardGroundMask = LayerMask.GetMask("HardGround");
-        _animationManager = GetComponent<AnimationManager>();
+        _animationManager = GetComponentInChildren<AnimationManager>();
     }
 
     public void OnEnable()

@@ -19,7 +19,7 @@ public class CritterMovement : MonoBehaviour
         {
             _movingLeft = true;
         }
-        _animationManager = GetComponent<AnimationManager>();
+        _animationManager = GetComponentInChildren<AnimationManager>();
     }
 
     private void FixedUpdate()
