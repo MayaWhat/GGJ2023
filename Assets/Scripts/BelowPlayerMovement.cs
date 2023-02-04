@@ -39,6 +39,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
         _playerSounds.Burrow.Play();
         _playerSounds.Digging.Play();
+        _renderer.enabled = true;
     }
 
     private void OnDisable()
@@ -89,6 +90,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
         if (transform.position.y >= 0)
         {
+            _renderer.enabled = false;
             ServiceLocator.Instance.PlayerManager.Switch(new Vector3(transform.position.x, 1), toAbove: true);
         }
     }

@@ -76,6 +76,11 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
     public void OnRoot(InputAction.CallbackContext context)
     {
+        if (transform.position.y > 1f)
+        {
+            return;
+        }
+
         ServiceLocator.Instance.PlayerManager.Switch(new Vector3(Mathf.Round(transform.position.x), -1), toAbove: false);
     }
 }
