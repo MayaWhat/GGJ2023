@@ -9,6 +9,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
     [SerializeField] private GameObject _belowTrail;
     [SerializeField] private int _moveTimer = 30;
     private SpriteRenderer _renderer;
+    private BelowPlayerSounds _playerSounds;
     private Vector2 _moveDirection;
     private int _timer;
     private List<GameObject> _rootTrail;
@@ -16,7 +17,8 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
     private void Awake()
     {
-        _renderer = gameObject.GetComponent<SpriteRenderer>();
+        _renderer = GetComponent<SpriteRenderer>();
+        _playerSounds = GetComponent<BelowPlayerSounds>();
     }
 
     public void OnEnable()
@@ -34,6 +36,9 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         ServiceLocator.Instance.MusicController.Dark();
         _rootTrail = new List<GameObject>();
         _isRetracting = false;
+
+        _playerSounds.Burrow.Play();
+        _playerSounds.Digging.Play();
         _renderer.enabled = true;
     }
 
@@ -43,6 +48,8 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         {
             _playerControls.Below.Disable();
         }
+
+        _playerSounds.Digging.Stop();
     }
 
     private void FixedUpdate()
