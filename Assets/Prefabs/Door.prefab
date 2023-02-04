@@ -131,7 +131,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destinationPosition: {x: 0, y: 0}
-  _movementSpeed: 0.1
+  _activateSpeed: 0.1
+  _deactivateSpeed: 0.1
 --- !u!61 &5653907188532512831
 BoxCollider2D:
   m_ObjectHideFlags: 0

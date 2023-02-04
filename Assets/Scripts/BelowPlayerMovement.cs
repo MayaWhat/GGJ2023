@@ -43,7 +43,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         }
         _playerControls.Below.Enable();
         _moveDirection = new Vector2(0, -1);
-        _moveTimer = 15;
+        _moveTimer = 12;
         _timer = 0;
         ServiceLocator.Instance.Camera.Follow = transform;
         ServiceLocator.Instance.MusicController.Dark();
@@ -189,7 +189,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         }
 
         _trail.positionCount -= 1;
-        _moveTimer = _trail.positionCount > 0 ? 8 / _trail.positionCount : 8; 
+        _moveTimer = _trail.positionCount > 0 ? 5 / _trail.positionCount : 5; 
     }
 
     #region MoveInputCallbacks

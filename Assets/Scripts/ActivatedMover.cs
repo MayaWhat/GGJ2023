@@ -5,7 +5,8 @@ public class ActivatedMover : Activatee
 {
     private Vector2 _startingPosition;
     [SerializeField] private Vector2 _destinationPosition;
-    [SerializeField] private float _movementSpeed;
+    [SerializeField] private float _activateSpeed;
+    [SerializeField] private float _deactivateSpeed;
     private Coroutine _currentMovement;
 
     private void Awake()
@@ -20,7 +21,7 @@ public class ActivatedMover : Activatee
             StopCoroutine(_currentMovement);
         }
 
-        _currentMovement = StartCoroutine(DoMove(_destinationPosition));
+        _currentMovement = StartCoroutine(DoMove(_destinationPosition, _activateSpeed));
     }
 
     public override void Deactivate()
@@ -30,14 +31,15 @@ public class ActivatedMover : Activatee
             StopCoroutine(_currentMovement);
         }
 
-        _currentMovement = StartCoroutine(DoMove(_startingPosition));
+        _currentMovement = StartCoroutine(DoMove(_startingPosition, _deactivateSpeed));
     }
 
-    IEnumerator DoMove(Vector2 destination)
+    IEnumerator DoMove(Vector2 destination, float speed)
     {
         while ((Vector2)transform.position != destination)
         {
-            transform.position = Vector2.Lerp(transform.position, destination, _movementSpeed);
+            
+            transform.position = Vector2.MoveTowards(transform.position, destination, speed);
             yield return new WaitForFixedUpdate();
         }
     }
