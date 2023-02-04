@@ -25,16 +25,22 @@ public class PlayerManager : MonoBehaviour
         _belowMovement.enabled = false;
         _belowPlayer.SetActive(false);
         ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.7f;
+        _aboveMovement.gameObject.transform.position = 
+            new Vector3(_aboveMovement.gameObject.transform.position.x, _aboveMovement.gameObject.transform.position.y, -1f);
     }
 
     public void Possess(GameObject targetCritter)
     {
+        _aboveMovement.gameObject.transform.position =
+            new Vector3(_aboveMovement.gameObject.transform.position.x, _aboveMovement.gameObject.transform.position.y, 0);
         _aboveMovement = targetCritter.GetComponent<AbovePlayerMovement>();
         _critterMovement = targetCritter.GetComponent <CritterMovement>();
         _critterMovement.enabled = false;
         _aboveMovement.enabled = true;
         _belowMovement.enabled = false;
         ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.7f;
+        _aboveMovement.gameObject.transform.position =
+            new Vector3(_aboveMovement.gameObject.transform.position.x, _aboveMovement.gameObject.transform.position.y, -1f);
     }
 
     public void Return()

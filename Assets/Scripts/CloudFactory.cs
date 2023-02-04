@@ -32,6 +32,7 @@ public class CloudFactory : MonoBehaviour
             GameObject cloud = Instantiate(_cloudPrefab, new Vector3(_camera.transform.position.x + 20f, cloudY), new Quaternion());
             cloud.GetComponent<SpriteRenderer>().sprite = _cloudSprites[Random.Range(0, _cloudSprites.Count)];
             _clouds.Add(cloud);
+            cloud.transform.parent = transform;
 
             _cloudTimer = _cloudSpawnFrequency + Random.Range(-_cloudSpawnDeviation, _cloudSpawnDeviation);
         }
