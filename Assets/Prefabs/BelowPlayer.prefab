@@ -84,6 +84,13 @@ MonoBehaviour:
       Data3: 2102071454
       Data4: 939342104
     Path: event:/Player Sounds/Unburrow
+  _errorSound:
+    Guid:
+      Data1: -448238079
+      Data2: 1259032915
+      Data3: 705761471
+      Data4: -1795970477
+    Path: event:/Player Sounds/Error
 --- !u!50 &5908764394855266512
 Rigidbody2D:
   serializedVersion: 4

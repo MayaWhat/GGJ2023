@@ -100,6 +100,8 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         var isBlocker = Physics2D.BoxCast(transform.position + new Vector3(0.5f, -0.5f, 0f), new Vector2(0.5f, 0.5f), 0, Vector2.zero, 0, _blockerMask);
         if (isBlocker.collider != null)
         {
+            StartCoroutine(FlashRed());
+            _playerSounds.Error.Play();
             StartRetract(false);
             return;
         }
@@ -118,11 +120,14 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
             if (_targetCritter != null)
             {
                 _playerSounds.Unburrow.Play();
+                _renderer.enabled = false;
                 StartRetract(true);
                 return;
             }
         }
 
+        StartCoroutine(FlashRed());
+        _playerSounds.Error.Play();
         StartRetract(false);
     }
 
@@ -135,6 +140,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         _trailColliders.Add(collider);
         var startingPosition = transform.position;
         var direction = _moveDirection;
+        var moveAnimationTimer = _moveTimer / 2;
 
         if (direction == Vector2.up)
         {
@@ -153,9 +159,9 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
             _renderer.transform.rotation = Quaternion.AngleAxis(0f, Vector3.forward);
         }
 
-        for (var i = 1; i <= _moveTimer; i++)
+        for (var i = 1; i <= moveAnimationTimer; i++)
         {
-            transform.position = Vector3.Lerp(startingPosition, startingPosition + (Vector3)direction, (float)i / _moveTimer);
+            transform.position = Vector3.Lerp(startingPosition, startingPosition + (Vector3)direction, (float)i / moveAnimationTimer);
             _trail.SetPosition(_trail.positionCount - 1, transform.position);
             yield return new WaitForFixedUpdate();
         }
@@ -171,8 +177,6 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
     private void Retract()
     {
-        _renderer.enabled = false;
-
         if (_trail.positionCount == 0)
         {
             if (_targetCritter != null)
@@ -198,6 +202,14 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         else
         {
             collider = _trailColliders.LastOrDefault();
+            if (collider != null)
+            {
+                transform.position = collider.transform.position;
+            }
+            else
+            {
+                _renderer.enabled = false;
+            }
         }
 
         if (collider != null)
@@ -208,6 +220,29 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
         _trail.positionCount -= 1;
         _moveTimer = _trail.positionCount > 0 ? 5 / _trail.positionCount : 5;
+    }
+
+    private IEnumerator FlashRed()
+    {
+        var time = 1f;
+        var color = 0f;
+        var direction = true;
+
+        while (time > 0)
+        {
+            color += Time.deltaTime * 10 * (direction ? 1 : -1);
+            if (color > 1f || color < 0f)
+            {
+                direction = !direction;
+            }
+
+            _renderer.color = Color.Lerp(Color.white, Color.red, color);
+
+            yield return null;
+            time -= Time.deltaTime;
+        }
+
+        _renderer.color = Color.white;
     }
 
     #region MoveInputCallbacks
