@@ -15,10 +15,11 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
     private int _timer;
     private List<GameObject> _rootTrail;
     private bool _isRetracting = false;
-    private Vector3? _retractEnd = null;
     private bool _retractForwards = false;
     private int _groundMask;
     private int _blockerMask;
+    private int _critterMask;
+    private AbovePlayerMovement _targetCritter;
 
     private void Awake()
     {
@@ -26,6 +27,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         _playerSounds = GetComponent<BelowPlayerSounds>();
         _groundMask = LayerMask.GetMask("Ground");
         _blockerMask = LayerMask.GetMask("HardGround");
+        _critterMask = LayerMask.GetMask("Critters");
 }
 
     public void OnEnable()
@@ -47,7 +49,6 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         _playerSounds.Burrow.Play();
         _playerSounds.Digging.Play();
         _renderer.enabled = true;
-        _retractEnd = null;
     }
 
     private void OnDisable()
@@ -85,24 +86,31 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
     {
         // Check just the middle of the square rather than the full square to avoid detecting edges of adjacent tiles
         var isBlocker = Physics2D.BoxCast(transform.position + (Vector3)_moveDirection + new Vector3(0.5f, -0.5f, 0f), new Vector2(0.5f, 0.5f), 0, Vector2.zero, 0, _blockerMask);
-        if (isBlocker.collider != null)
+        if (isBlocker.collider == null)
         {
-            StartRetract(false);
-            return;
+            var root = Instantiate(_belowTrail, transform.position, transform.rotation);
+            _rootTrail.Add(root);
+
+            var isGround = Physics2D.BoxCast(transform.position + (Vector3)_moveDirection + new Vector3(0.5f, -0.5f, 0f), new Vector2(0.5f, 0.5f), 0, Vector2.zero, 0, _groundMask);
+            if (isGround.collider != null)
+            {
+                StartCoroutine(DoMove());
+                return;
+            }
+
+            var isCritter = Physics2D.BoxCast(transform.position + (Vector3)_moveDirection + new Vector3(0.5f, -0.5f, 0f), new Vector2(0.5f, 0.5f), 0, Vector2.zero, 0, _critterMask);
+            if (isCritter.collider != null)
+            {
+                _targetCritter = isCritter.collider.GetComponent<AbovePlayerMovement>();
+                if (_targetCritter != null)
+                {
+                    StartRetract(true);
+                    return;
+                }
+            }
         }
 
-        var root = Instantiate(_belowTrail, transform.position, transform.rotation);
-        _rootTrail.Add(root);
-
-        var isGround = Physics2D.BoxCast(transform.position + (Vector3)_moveDirection + new Vector3(0.5f, -0.5f, 0f), new Vector2(0.5f, 0.5f), 0, Vector2.zero, 0, +_groundMask);
-        if (isGround.collider == null)
-        {
-            _retractEnd = new Vector3(transform.position.x, transform.position.y + 1);
-            StartRetract(true);
-            return;
-        }
-
-        StartCoroutine(DoMove());
+        StartRetract(false);
     }
 
     private IEnumerator DoMove()
@@ -131,7 +139,15 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
         if (_rootTrail.Count == 0)
         {
-            ServiceLocator.Instance.PlayerManager.Switch(_retractEnd, toAbove: true);
+            if (_targetCritter != null)
+            {
+                ServiceLocator.Instance.PlayerManager.Possess(_targetCritter);
+            }
+            else
+            {
+                ServiceLocator.Instance.PlayerManager.Return();
+            }
+            
             return;
         }
 
