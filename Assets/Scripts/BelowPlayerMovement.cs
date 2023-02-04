@@ -20,6 +20,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         _playerControls.Below.Enable();
         _moveDirection = new Vector2(0, -1);
         _timer = _moveTimer;
+        ServiceLocator.Instance.Camera.Follow = transform;
     }
 
     private void OnDisable()
