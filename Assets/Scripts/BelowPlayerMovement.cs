@@ -7,13 +7,15 @@ using UnityEngine.InputSystem;
 public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 {
     private PlayerControls _playerControls;
-    [SerializeField] private GameObject _belowTrail;
-    [SerializeField] private int _moveTimer = 20;
+    [SerializeField] private LineRenderer _belowTrail;
+    [SerializeField] private Collider2D _belowTrailCollider;
+    [SerializeField] private int _moveTimer = 10;
     private SpriteRenderer _renderer;
     private BelowPlayerSounds _playerSounds;
     private Vector2 _moveDirection;
     private int _timer;
-    private List<GameObject> _rootTrail;
+    private LineRenderer _trail;
+    private List<Collider2D> _trailColliders;
     private bool _isRetracting = false;
     private bool _retractForwards = false;
     private int _groundMask;
@@ -28,7 +30,9 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         _groundMask = LayerMask.GetMask("Ground");
         _blockerMask = LayerMask.GetMask("HardGround");
         _critterMask = LayerMask.GetMask("Critters");
-}
+        _trail = Instantiate(_belowTrail);
+        _trail.transform.position += new Vector3(0.5f, -0.5f, 0f);
+    }
 
     public void OnEnable()
     {
@@ -43,7 +47,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         _timer = 0;
         ServiceLocator.Instance.Camera.Follow = transform;
         ServiceLocator.Instance.MusicController.Dark();
-        _rootTrail = new List<GameObject>();
+        _trailColliders = new List<Collider2D>();
         _isRetracting = false;
 
         _playerSounds.Burrow.Play();
@@ -84,29 +88,36 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
     private void Move()
     {
-        // Check just the middle of the square rather than the full square to avoid detecting edges of adjacent tiles
-        var isBlocker = Physics2D.BoxCast(transform.position + (Vector3)_moveDirection + new Vector3(0.5f, -0.5f, 0f), new Vector2(0.5f, 0.5f), 0, Vector2.zero, 0, _blockerMask);
-        if (isBlocker.collider == null)
+        if (_trail.positionCount == 0)
         {
-            var root = Instantiate(_belowTrail, transform.position, transform.rotation);
-            _rootTrail.Add(root);
+            _trail.positionCount += 2;
+            _trail.SetPosition(_trail.positionCount - 2, transform.position + new Vector3(0f, 1f));
+            _trail.SetPosition(_trail.positionCount - 1, transform.position);
+        }
 
-            var isGround = Physics2D.BoxCast(transform.position + (Vector3)_moveDirection + new Vector3(0.5f, -0.5f, 0f), new Vector2(0.5f, 0.5f), 0, Vector2.zero, 0, _groundMask);
-            if (isGround.collider != null)
+        // Check just the middle of the square rather than the full square to avoid detecting edges of adjacent tiles
+        var isBlocker = Physics2D.BoxCast(transform.position + new Vector3(0.5f, -0.5f, 0f), new Vector2(0.5f, 0.5f), 0, Vector2.zero, 0, _blockerMask);
+        if (isBlocker.collider != null)
+        {
+            StartRetract(false);
+            return;
+        }
+
+        var isGround = Physics2D.BoxCast(transform.position + new Vector3(0.5f, -0.5f, 0f), new Vector2(0.5f, 0.5f), 0, Vector2.zero, 0, _groundMask);
+        if (isGround.collider != null)
+        {
+            StartCoroutine(DoMove());
+            return;
+        }
+
+        var isCritter = Physics2D.BoxCast(transform.position + new Vector3(0.5f, -0.5f, 0f), new Vector2(0.5f, 0.5f), 0, Vector2.zero, 0, _critterMask);
+        if (isCritter.collider != null)
+        {
+            _targetCritter = isCritter.collider.gameObject;
+            if (_targetCritter != null)
             {
-                StartCoroutine(DoMove());
+                StartRetract(true);
                 return;
-            }
-
-            var isCritter = Physics2D.BoxCast(transform.position + (Vector3)_moveDirection + new Vector3(0.5f, -0.5f, 0f), new Vector2(0.5f, 0.5f), 0, Vector2.zero, 0, _critterMask);
-            if (isCritter.collider != null)
-            {
-                _targetCritter = isCritter.collider.gameObject;
-                if (_targetCritter != null)
-                {
-                    StartRetract(true);
-                    return;
-                }
             }
         }
 
@@ -115,12 +126,18 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
     private IEnumerator DoMove()
     {
+        _trail.positionCount += 1;
+        _trail.SetPosition(_trail.positionCount - 1, transform.position);
+        var collider = Instantiate(_belowTrailCollider);
+        collider.transform.position = transform.position;
+        _trailColliders.Add(collider);
         var startingPosition = transform.position;
         var direction = _moveDirection;
 
         for (var i = 1; i <= _moveTimer; i++)
         {
-            transform.position = startingPosition + (Vector3)(direction * ((float)i / _moveTimer));
+            transform.position = Vector3.Lerp(startingPosition, startingPosition + (Vector3)direction, (float)i / _moveTimer);
+            _trail.SetPosition(_trail.positionCount - 1, transform.position);
             yield return new WaitForFixedUpdate();
         }
     }
@@ -137,7 +154,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
     {
         _renderer.enabled = false;
 
-        if (_rootTrail.Count == 0)
+        if (_trail.positionCount == 0)
         {
             if (_targetCritter != null)
             {
@@ -147,23 +164,31 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
             {
                 ServiceLocator.Instance.PlayerManager.Return();
             }
-            
+
             return;
         }
 
-        GameObject root;
+        Collider2D collider = null;
         if (_retractForwards)
         {
-            root = _rootTrail.First();
+            var positions = new Vector3[_trail.positionCount];
+            _trail.GetPositions(positions);
+            _trail.SetPositions(positions.Skip(1).ToArray());
+            collider = _trailColliders.FirstOrDefault();
         }
         else
         {
-            root = _rootTrail.Last();
+            collider = _trailColliders.LastOrDefault();
         }
 
-        root.SetActive(false);
-        _rootTrail.Remove(root);
-        _moveTimer = _rootTrail.Count > 0 ? 8 / _rootTrail.Count : 8; 
+        if (collider != null)
+        {
+            Destroy(collider.gameObject);
+            _trailColliders.Remove(collider);
+        }
+
+        _trail.positionCount -= 1;
+        _moveTimer = _trail.positionCount > 0 ? 8 / _trail.positionCount : 8; 
     }
 
     #region MoveInputCallbacks

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3799676484459607388}
   - component: {fileID: 5908764394855266512}
   - component: {fileID: 905169800013297321}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BelowPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,8 +100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d816fd0b457877c41aade551914e2b7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _belowTrail: {fileID: 3594267739769475023, guid: 49a242bf4a1329e45b6364387537dc5e, type: 3}
   _moveTimer: 10
+  _belowTrail: {fileID: 9220817519662782989, guid: 29c3de13f1f1a7a46af8806e5c7829c6, type: 3}
+  _belowTrailCollider: {fileID: 5670147233253963981, guid: e08cf9ecc360a12438f19a13cdfee738, type: 3}
 --- !u!114 &3799676484459607388
 MonoBehaviour:
   m_ObjectHideFlags: 0
