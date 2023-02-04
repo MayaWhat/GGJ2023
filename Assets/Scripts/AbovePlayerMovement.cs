@@ -66,6 +66,15 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
         if (moveInput.x != 0)
         {
+            if (moveInput.x > 0)
+            {
+                transform.localScale = new Vector3(1f, 1f, 1f);
+            }
+            else
+            {
+                transform.localScale = new Vector3(-1f, 1f, 1f);
+            }
+
             if (!_playerSounds.Walking.IsPlaying())
             {
                 _playerSounds.Walking.Play();

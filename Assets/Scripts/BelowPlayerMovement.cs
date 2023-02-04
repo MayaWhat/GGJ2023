@@ -43,7 +43,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         }
         _playerControls.Below.Enable();
         _moveDirection = new Vector2(0, -1);
-        _moveTimer = 20;
+        _moveTimer = 15;
         _timer = 0;
         ServiceLocator.Instance.Camera.Follow = transform;
         ServiceLocator.Instance.MusicController.Dark();
