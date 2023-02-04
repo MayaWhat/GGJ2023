@@ -23,4 +23,14 @@ public class AnimationManager : MonoBehaviour
     {
         _animator.Play("Uproot");
     }
+
+    public void SrartPossess()
+    {
+        _animator.Play("StartPossess");
+    }
+
+    public void EndPossess()
+    {
+        _animator.Play("EndPossess");
+    }
 }

@@ -44,6 +44,14 @@ public class PlayerManager : MonoBehaviour
         _aboveMovement.gameObject.transform.position =
             new Vector3(_aboveMovement.gameObject.transform.position.x, _aboveMovement.gameObject.transform.position.y, -1f);
         _animationManager = targetCritter.GetComponentInChildren<AnimationManager>();
+        if (_aboveMovement.IsRooted)
+        {
+            _animationManager.Uproot();
+        }
+        else
+        {
+            _animationManager.EndPossess();
+        }        
     }
 
     public void Return()

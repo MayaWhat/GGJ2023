@@ -13,6 +13,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
     private bool _onGround;
     private bool _onHardGround;
     private AnimationManager _animationManager;
+    public bool IsRooted = false;
 
     private void Awake()
     {
@@ -116,8 +117,8 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
         {
             return;
         }
-
-        _animationManager.Root();
+        
+        IsRooted = true;
         ServiceLocator.Instance.PlayerManager.Root(new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y) - transform.localScale.y));
     }
 }

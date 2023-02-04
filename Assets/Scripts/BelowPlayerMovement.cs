@@ -117,6 +117,10 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
             _targetCritter = isCritter.collider.gameObject;
             if (_targetCritter != null)
             {
+                if (!_targetCritter.GetComponent<AbovePlayerMovement>().IsRooted)
+                {
+                    _targetCritter.GetComponentInChildren<AnimationManager>().SrartPossess();
+                }                
                 _playerSounds.Unburrow.Play();
                 StartRetract(true);
                 return;
