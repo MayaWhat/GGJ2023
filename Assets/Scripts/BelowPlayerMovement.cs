@@ -16,11 +16,14 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
     private bool _isRetracting = false;
     private Vector3? _retractEnd = null;
     private bool _retractForwards = false;
+    private bool _atSurface;
+    private int _tilemapMask;
 
     private void Awake()
     {
         _renderer = GetComponent<SpriteRenderer>();
         _playerSounds = GetComponent<BelowPlayerSounds>();
+        _tilemapMask = LayerMask.GetMask("Tilemap");
     }
 
     public void OnEnable()
@@ -91,12 +94,15 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
             }
         }
 
-        if (transform.position.y >= 0)
+        if (_atSurface && _moveDirection.y == 1)
         {
             _renderer.enabled = false;
-            _retractEnd = new Vector3(transform.position.x, 1);
+            _retractEnd = new Vector3(transform.position.x, transform.position.y + 1);
             StartRetract(true);
         }
+
+        var aboveHit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 1), new Vector2(0, 1), 1f, _tilemapMask);
+        _atSurface = aboveHit.collider == null;
     }
 
     private void StartRetract(bool forwards = false)
