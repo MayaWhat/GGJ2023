@@ -46,15 +46,34 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
     private void FixedUpdate()
     {
-        var groundHit = Physics2D.Raycast(transform.position, new Vector2(0, -1), (transform.lossyScale.y + 0.25f), _groundMask);
+        var groundHit = Physics2D.BoxCast(
+            transform.position,
+            new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y),
+            0,
+            new Vector2(0, -1),
+            transform.localScale.y * 1f,
+            _groundMask);
         _onGround = groundHit.collider != null;
 
-        var hardGroundHit = Physics2D.Raycast(transform.position, new Vector2(0, -1), (transform.lossyScale.y + 0.25f), _hardGroundMask);
+        var hardGroundHit = Physics2D.BoxCast(
+            transform.position,
+            new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y),
+            0,
+            new Vector2(0, -1),
+            transform.localScale.y * 1f,
+            _hardGroundMask);
         _onHardGround = hardGroundHit.collider != null;
 
         var moveInput = _playerControls.Above.Move.ReadValue<Vector2>();
 
-        var moveHit = Physics2D.Raycast(transform.position, moveInput, (transform.lossyScale.x + 0.25f), _groundMask | _hardGroundMask);
+        var moveHit = Physics2D.BoxCast(
+            transform.position,
+            new Vector2(Mathf.Abs(transform.localScale.x) * 0.9f, transform.localScale.y * 0.9f),
+            0,
+            moveInput,
+            Mathf.Abs(transform.localScale.x) * 0.8f,
+            _groundMask | _hardGroundMask
+            );
 
         if (moveHit.collider != null)
         {
@@ -117,7 +136,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
         {
             return;
         }
-        
+
         IsRooted = true;
         ServiceLocator.Instance.PlayerManager.Root(new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y) - transform.localScale.y));
     }
