@@ -55,6 +55,12 @@ public class PlayerManager : MonoBehaviour
         {
             _animationManager.EndPossess();
         }
+
+        if (_aboveMovement.IsGoal)
+        {
+            StartCoroutine(Win());
+            return;
+        }
         StartCoroutine(SwitchControl(toAbove: true));
     }
 
@@ -102,5 +108,11 @@ public class PlayerManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.4f);
         abovePlayerMovement.enabled = true;
+    }
+
+    private IEnumerator Win()
+    {
+        yield return new WaitForSeconds(0.5f);
+        _animationManager.Root();
     }
 }

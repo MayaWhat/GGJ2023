@@ -13,8 +13,9 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
     private bool _onGround;
     private bool _onHardGround;
     private AnimationManager _animationManager;
-    public bool IsRooted = false;
+    [HideInInspector]public bool IsRooted = false;
     private SpriteRenderer _spriteRenderer;
+    [SerializeField] public bool IsGoal = false;
 
     private void Awake()
     {
@@ -24,6 +25,10 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
         _hardGroundMask = LayerMask.GetMask("HardGround");
         _animationManager = GetComponentInChildren<AnimationManager>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (IsGoal)
+        {
+            _spriteRenderer.color = new Color(1f, 1f, 0.8f);
+        }
     }
 
     public void OnEnable()
