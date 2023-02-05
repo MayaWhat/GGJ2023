@@ -55,7 +55,10 @@ public class PlayerManager : MonoBehaviour
         else
         {
             var spriteRenderer = targetCritter.GetComponentInChildren<SpriteRenderer>();
-            spriteRenderer.color = new Color(1f, 0.95f, 0.95f);
+            if (!_aboveMovement.IsGoal)
+            {
+                spriteRenderer.color = new Color(1f, 0.95f, 0.95f);
+            }            
             _animationManager.EndPossess();
         }
 
