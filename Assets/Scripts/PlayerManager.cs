@@ -1,10 +1,10 @@
 using Cinemachine;
-using FMOD.Studio;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _abovePlayerPrefab;    
+    [SerializeField] private GameObject _abovePlayerPrefab;
     [SerializeField] private GameObject _belowPlayerPrefab;
     private GameObject _abovePlayer;
     private GameObject _belowPlayer;
@@ -23,12 +23,12 @@ public class PlayerManager : MonoBehaviour
         _animationManager = _abovePlayer.GetComponentInChildren<AnimationManager>();
 
         _critterMovement.enabled = false;
-        _aboveMovement.enabled = true;
         _belowMovement.enabled = false;
         _belowPlayer.SetActive(false);
         ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.6f;
-        _aboveMovement.gameObject.transform.position = 
+        _aboveMovement.gameObject.transform.position =
             new Vector3(_aboveMovement.gameObject.transform.position.x, _aboveMovement.gameObject.transform.position.y, -1f);
+        StartCoroutine(SwitchControl(toAbove: true));
     }
 
     public void Possess(GameObject targetCritter)
@@ -36,9 +36,8 @@ public class PlayerManager : MonoBehaviour
         _aboveMovement.gameObject.transform.position =
             new Vector3(_aboveMovement.gameObject.transform.position.x, _aboveMovement.gameObject.transform.position.y, 0);
         _aboveMovement = targetCritter.GetComponent<AbovePlayerMovement>();
-        _critterMovement = targetCritter.GetComponent <CritterMovement>();
+        _critterMovement = targetCritter.GetComponent<CritterMovement>();
         _critterMovement.enabled = false;
-        _aboveMovement.enabled = true;
         _belowMovement.enabled = false;
         ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.6f;
         _aboveMovement.gameObject.transform.position =
@@ -51,24 +50,38 @@ public class PlayerManager : MonoBehaviour
         else
         {
             _animationManager.EndPossess();
-        }        
+        }
+        StartCoroutine(SwitchControl(toAbove: true));
     }
 
     public void Return()
     {
         _belowMovement.enabled = false;
-        _aboveMovement.enabled = true;
         ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.6f;
         _animationManager.Uproot();
+        StartCoroutine(SwitchControl(toAbove: true));
     }
 
     public void Root(Vector3 position)
     {
         _belowPlayer.SetActive(true);
         _aboveMovement.enabled = false;
-        _belowMovement.enabled = true;
         _belowPlayer.transform.position = position;
         ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.4f;
         _animationManager.Root();
+        StartCoroutine(SwitchControl(toAbove: false));
+    }
+
+    private IEnumerator SwitchControl(bool toAbove = false)
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (toAbove)
+        {
+            _aboveMovement.enabled = true;
+        }
+        else
+        {
+            _belowMovement.enabled = true;
+        }
     }
 }
