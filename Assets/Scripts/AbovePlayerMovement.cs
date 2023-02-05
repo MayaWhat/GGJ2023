@@ -131,7 +131,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (!context.performed || (!_onGround && !_onHardGround))
+        if (!context.performed || (!_onGround && !_onHardGround) || IsRooted)
         {
             return;
         }
