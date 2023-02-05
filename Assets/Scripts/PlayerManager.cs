@@ -28,7 +28,12 @@ public class PlayerManager : MonoBehaviour
         ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.6f;
         _aboveMovement.gameObject.transform.position =
             new Vector3(_aboveMovement.gameObject.transform.position.x, _aboveMovement.gameObject.transform.position.y, -1f);
-        StartCoroutine(SwitchControl(toAbove: true));
+
+        _abovePlayer.GetComponent<CapsuleCollider2D>().enabled = false;
+        _abovePlayer.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        _abovePlayer.transform.position = new Vector2(-13, 10.8f);
+        ServiceLocator.Instance.Camera.Follow = _abovePlayer.transform;
+        StartCoroutine(FallIn(_abovePlayer, _aboveMovement));
     }
 
     public void Possess(GameObject targetCritter)
@@ -83,5 +88,19 @@ public class PlayerManager : MonoBehaviour
         {
             _belowMovement.enabled = true;
         }
+    }
+
+    private IEnumerator FallIn(GameObject abovePlayer, AbovePlayerMovement abovePlayerMovement)
+    {
+        yield return new WaitForSeconds(1);
+
+        _abovePlayer.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        _abovePlayer.GetComponent<Rigidbody2D>().velocity = new Vector3(15, 15);
+
+        yield return new WaitForSeconds(0.6f);
+        _abovePlayer.GetComponent<CapsuleCollider2D>().enabled = true;
+
+        yield return new WaitForSeconds(1);
+        abovePlayerMovement.enabled = true;
     }
 }
