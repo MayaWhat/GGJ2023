@@ -13,6 +13,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
     private SpriteRenderer _renderer;
     private BelowPlayerSounds _playerSounds;
     private Vector2 _moveDirection;
+    private Vector2 _previousMoveDirection;
     private int _timer;
     private LineRenderer _trail;
     private List<Collider2D> _trailColliders;
@@ -144,6 +145,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
         _trailColliders.Add(collider);
         var startingPosition = transform.position;
         var direction = _moveDirection;
+        _previousMoveDirection = _moveDirection;
         var moveAnimationTimer = _moveTimer / 2;
 
         if (direction == Vector2.up)
@@ -253,7 +255,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
     public void OnMoveUp(InputAction.CallbackContext context)
     {
-        if (!context.performed || _moveDirection.y != 0)
+        if (!context.performed || _previousMoveDirection.y != 0)
         {
             return;
         }
@@ -263,7 +265,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
     public void OnMoveDown(InputAction.CallbackContext context)
     {
-        if (!context.performed || _moveDirection.y != 0)
+        if (!context.performed || _previousMoveDirection.y != 0)
         {
             return;
         }
@@ -273,7 +275,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
     public void OnMoveLeft(InputAction.CallbackContext context)
     {
-        if (!context.performed || _moveDirection.x != 0)
+        if (!context.performed || _previousMoveDirection.x != 0)
         {
             return;
         }
@@ -283,7 +285,7 @@ public class BelowPlayerMovement : MonoBehaviour, PlayerControls.IBelowActions
 
     public void OnMoveRight(InputAction.CallbackContext context)
     {
-        if (!context.performed || _moveDirection.x != 0)
+        if (!context.performed || _previousMoveDirection.x != 0)
         {
             return;
         }
