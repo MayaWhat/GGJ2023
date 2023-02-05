@@ -138,6 +138,6 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
         }
 
         IsRooted = true;
-        ServiceLocator.Instance.PlayerManager.Root(new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y) - transform.localScale.y));
+        ServiceLocator.Instance.PlayerManager.Root(new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y) - Mathf.Floor(transform.localScale.y)));
     }
 }
