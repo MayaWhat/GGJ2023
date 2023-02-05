@@ -78,6 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 8
   _jumpHeight: 30
+  IsRooted: 0
 --- !u!114 &5166316397913234799
 MonoBehaviour:
   m_ObjectHideFlags: 0
