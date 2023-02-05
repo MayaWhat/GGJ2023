@@ -14,6 +14,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
     private bool _onHardGround;
     private AnimationManager _animationManager;
     public bool IsRooted = false;
+    private SpriteRenderer _spriteRenderer;
 
     private void Awake()
     {
@@ -22,6 +23,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
         _groundMask = LayerMask.GetMask("Ground");
         _hardGroundMask = LayerMask.GetMask("HardGround");
         _animationManager = GetComponentInChildren<AnimationManager>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     public void OnEnable()
@@ -34,6 +36,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
         _playerControls.Above.Enable();
         ServiceLocator.Instance.Camera.Follow = transform;
         ServiceLocator.Instance.MusicController.Happy();
+        _spriteRenderer.color = new Color(1f, 0.95f, 0.95f);
     }
 
     private void OnDisable()
@@ -42,6 +45,7 @@ public class AbovePlayerMovement : MonoBehaviour, PlayerControls.IAboveActions
         {
             _playerControls.Above.Disable();
         }
+        _spriteRenderer.color = new Color(1f, 1f, 1f);
     }
 
     private void FixedUpdate()
