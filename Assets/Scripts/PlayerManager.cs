@@ -51,6 +51,7 @@ public class PlayerManager : MonoBehaviour
         if (_aboveMovement.IsRooted)
         {
             _animationManager.Uproot();
+            _aboveMovement.IsRooted = false;
         }
         else
         {
@@ -75,6 +76,7 @@ public class PlayerManager : MonoBehaviour
         _belowMovement.enabled = false;
         ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.6f;
         _animationManager.Uproot();
+        _aboveMovement.IsRooted = false;
         StartCoroutine(SwitchControl(toAbove: true));
     }
 
