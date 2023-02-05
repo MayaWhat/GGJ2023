@@ -27,6 +27,7 @@ public class PlayerManager : MonoBehaviour
         _belowPlayer.SetActive(false);
         ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.6f;
 
+        _abovePlayer.GetComponentInChildren<SpriteRenderer>().color = new Color(1f, 0.95f, 0.95f);
         _abovePlayer.GetComponent<CapsuleCollider2D>().enabled = false;
         _abovePlayer.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         _abovePlayer.transform.position = new Vector3(-13, 10.8f, -1f);
