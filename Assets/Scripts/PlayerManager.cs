@@ -26,12 +26,10 @@ public class PlayerManager : MonoBehaviour
         _belowMovement.enabled = false;
         _belowPlayer.SetActive(false);
         ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.6f;
-        _aboveMovement.gameObject.transform.position =
-            new Vector3(_aboveMovement.gameObject.transform.position.x, _aboveMovement.gameObject.transform.position.y, -1f);
 
         _abovePlayer.GetComponent<CapsuleCollider2D>().enabled = false;
         _abovePlayer.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-        _abovePlayer.transform.position = new Vector2(-13, 10.8f);
+        _abovePlayer.transform.position = new Vector3(-13, 10.8f, -1f);
         ServiceLocator.Instance.Camera.Follow = _abovePlayer.transform;
         StartCoroutine(FallIn(_abovePlayer, _aboveMovement));
     }
@@ -96,11 +94,12 @@ public class PlayerManager : MonoBehaviour
 
         _abovePlayer.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         _abovePlayer.GetComponent<Rigidbody2D>().velocity = new Vector3(15, 15);
+        _abovePlayer.GetComponent<AbovePlayerSounds>().Jump.Play();
 
         yield return new WaitForSeconds(0.6f);
         _abovePlayer.GetComponent<CapsuleCollider2D>().enabled = true;
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.4f);
         abovePlayerMovement.enabled = true;
     }
 }
