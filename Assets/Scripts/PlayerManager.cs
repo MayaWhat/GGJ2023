@@ -26,6 +26,7 @@ public class PlayerManager : MonoBehaviour
         _belowMovement.enabled = false;
         _belowPlayer.SetActive(false);
         ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.6f;
+        ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenX = 0.1f;
 
         _abovePlayer.GetComponentInChildren<SpriteRenderer>().color = new Color(1f, 0.95f, 0.95f);
         _abovePlayer.GetComponent<CapsuleCollider2D>().enabled = false;
@@ -104,9 +105,12 @@ public class PlayerManager : MonoBehaviour
         _abovePlayer.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         _abovePlayer.GetComponent<Rigidbody2D>().velocity = new Vector3(15, 15);
         _abovePlayer.GetComponent<AbovePlayerSounds>().Jump.Play();
+        ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenX = 0.3f;
+
 
         yield return new WaitForSeconds(0.6f);
         _abovePlayer.GetComponent<CapsuleCollider2D>().enabled = true;
+        ServiceLocator.Instance.Camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenX = 0.5f;
 
         yield return new WaitForSeconds(0.4f);
         abovePlayerMovement.enabled = true;
